@@ -1,4 +1,3 @@
-
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -37,8 +36,6 @@ class MyAccountManager(BaseUserManager):
         user.is_admin = True
         user.is_superadmin = True
         user.is_staff = True
-        print(user, self.normalize_email(email), password)
-
         user.save(using=self._db)
         return user
 
@@ -73,3 +70,20 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, add_label):
         return True
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    address_line_1 = models.CharField(blank=True, max_length=100)
+    address_line_2 = models.CharField(blank=True, max_length=100)
+    profile_picture = models.ImageField(blank=True, upload_to='userprofile')
+    city = models.CharField(blank=True, max_length=20)
+    state = models.CharField(blank=True, max_length=20)
+    phone_number = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.user.first_name
+
+    def full_address(self):
+        return f'{self.address_line_1} {self.address_line_2} {self.city} {self.state}'
+

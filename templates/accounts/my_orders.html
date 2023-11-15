@@ -14,30 +14,30 @@
 			<span>{{ user.full_name }}</span>
 		</header>
 		<div class="card-body">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="card" style="text-align:center;">
-						<div class="card-body">
-							<h5 class="card-title">Total Orders</h5>
-							<h4>{{order_count}}</h4>
-							<a href="">View Orders</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="card" style="text-align:center;">
-						<div class="card-body">
-							<img src="{{userprofile.profile_picture.url}}" alt="User Profile Picture" width="50" height="50" style="border-radius:50%;">
-							<p class="mb-0">{{user.email}}</p>
-							<p>Hello</p>
-						</div>
-					</div>
-				</div>
+			<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Orders</th>
+      <th scope="col">Billing Name</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Order Total</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders%}
+    <tr>
+        <td scope="row"><a class="" href="{% url 'order_details' order_id=order.order_number%}">{{order.order_number}}</a></td>
+      <td>{{order.full_name}}</td>
+      <td>{{order.phone_number}}</td>
+      <td>{{order.order_total}}</td>
+      <td>{{order.updated_at}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
-			</div> <!-- row.// -->
-			<div class="row">
 
-			</div>
 
 		</div> <!-- card-body .// -->
 

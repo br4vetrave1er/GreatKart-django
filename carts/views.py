@@ -180,7 +180,6 @@ def cart(request, total=0, quantity=0, cart_item=None):
         tax = (2 * total) / 100
         grand_total = total + tax
     except ObjectDoesNotExist:
-        print('from except block')
         pass
 
     context = {
@@ -190,7 +189,6 @@ def cart(request, total=0, quantity=0, cart_item=None):
         'grand_total': grand_total,
         'tax': tax,
     }
-    print(cart_item)
 
     return render(request, 'store/cart.html', context)
 

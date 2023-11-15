@@ -11,7 +11,7 @@ from accounts.models import Account
 class Products(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    price = models.DecimalField(max_digits=8,decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField(max_length=200, blank=True)
     stock = models.IntegerField()
     image = models.ImageField(upload_to='photos/products', blank=True)
@@ -85,3 +85,15 @@ class ReviewandRating(models.Model):
 
     def __str__(self):
         return self.subject
+
+
+class ProductGallery(models.Model):
+    product = models.ForeignKey(Products, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="store/products", max_length=255)
+
+    def __str__(self):
+        return self.product.name
+
+    class Meta:
+        verbose_name = "productgallery"
+        verbose_name_plural = "product gallery"

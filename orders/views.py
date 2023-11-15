@@ -20,68 +20,71 @@ from GreatKart import settings
 
 
 def payments(request):
-    body = json.loads(request.body)
-    order = Order.objects.get(user=request.user, is_ordered=False, order_number=body["orderID"])
-    # Transaction Details
-    payment = Payment(
-        user=request.user,
-        payment_id=body["transID"],
-        payment_method=body["payment_method"],
-        amount_paid=order.order_total,
-        status=body["status"],
-    )
-    payment.save()
-    order.payment = payment
-    order.is_ordered = True
-    order.save()
+    try:
+        body = json.loads(request.body)
+        order = Order.objects.get(user=request.user, is_ordered=False, order_number=body["orderID"])
+        # Transaction Details
+        payment = Payment(
+            user=request.user,
+            payment_id=body["transID"],
+            payment_method=body["payment_method"],
+            amount_paid=order.order_total,
+            status=body["status"],
+        )
+        payment.save()
+        order.payment = payment
+        order.is_ordered = True
+        order.save()
 
-    # mOVE CART ITEMS TO order product table
-    cart_items = CartItem.objects.filter(user=request.user)
+        # mOVE CART ITEMS TO order product table
+        cart_items = CartItem.objects.filter(user=request.user)
 
-    for item in cart_items:
-        orderproduct = OrderProduct()
-        orderproduct.order_id = order.id
-        orderproduct.payment = payment
-        orderproduct.user_id = request.user.id
-        orderproduct.product_id = item.product_id
-        orderproduct.quantity = item.quantity
-        orderproduct.product_price = item.product.price
-        orderproduct.ordered = True
-        orderproduct.save()
+        for item in cart_items:
+            orderproduct = OrderProduct()
+            orderproduct.order_id = order.id
+            orderproduct.payment = payment
+            orderproduct.user_id = request.user.id
+            orderproduct.product_id = item.product_id
+            orderproduct.quantity = item.quantity
+            orderproduct.product_price = item.product.price
+            orderproduct.ordered = True
+            orderproduct.save()
 
-        cart_item = CartItem.objects.get(id=item.id)
-        product_variation = cart_item.variations.all()
-        orderproduct = OrderProduct.objects.get(id=orderproduct.id)
-        orderproduct.variation.set(product_variation)
-        orderproduct.save()
+            cart_item = CartItem.objects.get(id=item.id)
+            product_variation = cart_item.variations.all()
+            orderproduct = OrderProduct.objects.get(id=orderproduct.id)
+            orderproduct.variation.set(product_variation)
+            orderproduct.save()
 
-        # Reduce quantity of sold products
-        print(item.id)
-        product = Products.objects.get(id=item.product_id)
-        product.stock -= item.quantity
-        product.save()
+            # Reduce quantity of sold products
+            print(item.id)
+            product = Products.objects.get(id=item.product_id)
+            product.stock -= item.quantity
+            product.save()
 
-    # remove product from cart
-    CartItem.objects.filter(user=request.user).delete()
+        # remove product from cart
+        CartItem.objects.filter(user=request.user).delete()
 
-    user = request.user
-    email = user.email
-    mail_subject = 'Thank YOu for your order'
-    message = render_to_string('orders/order_received_mail.html', {
-        'user': user,
-        'order': order
-    })
-    to_email = email
-    email_from = settings.EMAIL_HOST_USER
-    # send_email = EmailMessage(mail_subject, message, to=[to_email])
-    send_mail(mail_subject, message, email_from, [to_email])
+        user = request.user
+        email = user.email
+        mail_subject = 'Thank YOu for your order'
+        message = render_to_string('orders/order_received_mail.html', {
+            'user': user,
+            'order': order
+        })
+        to_email = email
+        email_from = settings.EMAIL_HOST_USER
+        # send_email = EmailMessage(mail_subject, message, to=[to_email])
+        send_mail(mail_subject, message, email_from, [to_email])
 
-    data = {
-        'order_number': order.order_number,
-        'transID': payment.payment_id,
-    }
+        data = {
+            'order_number': order.order_number,
+            'transID': payment.payment_id,
+        }
 
-    return JsonResponse(data)
+        return JsonResponse(data)
+    except:
+        return HttpResponse("Please login to use this url")
 
 
 def place_order(request, total=0, quantity=0):
