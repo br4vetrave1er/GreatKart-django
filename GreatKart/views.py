@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from products.models import Products, ReviewandRating
 
+
 def home(request):
     products = Products.objects.all().filter(is_available=True).order_by("-date_created")
 
+    reviews = None
     for product in products:
         reviews = ReviewandRating.objects.filter(product_id=product.id, status=True)
 
@@ -14,7 +16,3 @@ def home(request):
     }
 
     return render(request, 'index.html', context)
-
-
-
-
