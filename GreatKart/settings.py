@@ -106,6 +106,16 @@ else:
         }
     }
 
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': "ebdb",
+#             'USER': "ebroot",
+#             'PASSWORD': "Hisenber.indefinate963",
+#             'HOST': "awseb-e-mmxtzmdhrq-stack-awsebrdsdatabase-tctsavuqy8w4.cnpbjqu21epp.ap-south-1.rds.amazonaws.com",
+#             'PORT': 5432,
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
