@@ -24,13 +24,12 @@ To enhance security, the application implemented tokenization of payment data th
 
 
 ### Tech-Stack
-![django](https://brandslogos.com/wp-content/uploads/images/large/django-logo.png)
-![python](https://brandslogos.com/wp-content/uploads/thumbs/python-logo-vector.svg)
-![postgresql](https://brandslogos.com/wp-content/uploads/thumbs/postgresql-inc-logo-vector.svg)
-![html](https://brandslogos.com/wp-content/uploads/thumbs/html5-logo-vector.svg)
-![css](https://brandslogos.com/wp-content/uploads/thumbs/css3-logo-vector.svg)
-![js](https://brandslogos.com/wp-content/uploads/thumbs/javascript-logo-vector.svg)
-![stripe](https://brandslogos.com/wp-content/uploads/thumbs/stripe-logo-vector-2.svg)
+<img src="https://brandslogos.com/wp-content/uploads/images/large/django-logo.png" width="40" height="40"> <img src="https://brandslogos.com/wp-content/uploads/thumbs/python-logo-vector.svg" width="40" height="40"> <img src="https://brandslogos.com/wp-content/uploads/thumbs/postgresql-inc-logo-vector.svg" width="40" height="40">
+<img src="https://brandslogos.com/wp-content/uploads/thumbs/html5-logo-vector.svg" width="40" height="40">
+<img src="https://brandslogos.com/wp-content/uploads/thumbs/css3-logo-vector.svg" width="40" height="40">
+<img src="https://brandslogos.com/wp-content/uploads/thumbs/javascript-logo-vector.svg" width="40" height="40">
+<img src="https://brandslogos.com/wp-content/uploads/thumbs/stripe-logo-vector-2.svg" width="40" height="40">
+
 
 
 ### Installation
